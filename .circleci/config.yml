@@ -13,7 +13,7 @@ jobs:
             
     lint-docker:
       docker: 
-        - image: amazon/aws-cli
+        - image: python:3.7.3-stretch
       steps:
         - checkout
         - run:
@@ -27,7 +27,6 @@ jobs:
             name: run lint
             command: |
                     pwd
-                    cd Capstone
                     make lint    
 workflows:
   default:
