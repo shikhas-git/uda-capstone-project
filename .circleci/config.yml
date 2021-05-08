@@ -42,7 +42,6 @@ jobs:
         - run:
             name: build and push docker image
             command: |
-                echo "Docker username = $DOCKERHUB_USER"
                 
                 # Build image and add a descriptive tag
                 docker build --tag=capstone-project-demowebsite .
@@ -55,7 +54,7 @@ jobs:
                 #dockerpath=shikhas/capstone-project-demowebsite
                 
                 #Login to docker hub
-                docker login --username $DOCKERHUB_USER --password $DOCKERHUB_PWD
+                echo $DOCKERHUB_PWD | docker login --username $DOCKERHUB_USER --password-stdin $DOCKERHUB_PWD
 
                 docker tag capstone-project-demowebsite shikhas/capstone-project-demowebsite
                 docker push shikhas/capstone-project-demowebsite
@@ -68,7 +67,7 @@ jobs:
         - run:
             name: Installing kubectl
             command: |
-                curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.16/2020-11-02/bin/linux/amd64/kubectl
+                curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.16/2020-11-02/bin/linux/amd64/kubectl \
                 chmod +x ./kubectl
                 
                 mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
