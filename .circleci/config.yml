@@ -75,6 +75,12 @@ jobs:
                 ls -lart
                 kubectl version --short --client 
                 
+        - run:
+            name: Installing eksctl
+            command: |
+                curl --silent --location https://github.com/weaveworks/eksctl/releases/download/0.47.0/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
+                mv /tmp/eksctl /usr/local/bin
+                eksctl version
    
 workflows:
   default:
