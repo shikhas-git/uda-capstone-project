@@ -38,6 +38,6 @@ workflows:
   default:
     jobs:
       - lint-html
-      - lint-docker
+      - lint-docker:
           requires: [lint-html]
       #- build-push-docker-image
