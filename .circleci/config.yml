@@ -6,12 +6,6 @@ jobs:
       steps:
         - checkout
         - run:
-            name: install lint
-            command: |
-                wget https://github.com/htacg/tidy-html5/releases/download/5.4.0/tidy-5.4.0-64bit.rpm 
-                yum install tidy-5.4.0-64bit.rpm
-            
-        - run:
             name: run html lint
             command: |
                 tidy -q -e index.html
