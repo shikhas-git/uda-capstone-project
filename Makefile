@@ -16,7 +16,7 @@ test:
 lint:
 	# See local hadolint install instructions:   https://github.com/hadolint/hadolint
 	# This is linter for Dockerfiles
-	./hadolint --disable=DL3007  Dockerfile
+	./hadolint --ignore=DL3007  Dockerfile
 	
 	
 	# This is a linter for Python source code linter: https://www.pylint.org/
