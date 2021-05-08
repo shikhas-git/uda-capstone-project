@@ -3,37 +3,37 @@ jobs:
     lint-html:
       docker:
         - image: python:3.7-alpine3.11
-          steps:
-            - checkout
-            - run:
-                name: install lint
-                command: |
-                    wget https://github.com/htacg/tidy-html5/releases/download/5.4.0/tidy-5.4.0-64bit.rpm
-                    yum install tidy-5.4.0-64bit.rpm
-                
-            - run:
-                name: run html lint
-                command: |
-                    tidy -q -e index.html
+      steps:
+        - checkout
+        - run:
+            name: install lint
+            command: |
+                wget https://github.com/htacg/tidy-html5/releases/download/5.4.0/tidy-5.4.0-64bit.rpm
+                yum install tidy-5.4.0-64bit.rpm
+            
+        - run:
+            name: run html lint
+            command: |
+                tidy -q -e index.html
             
     lint-docker:
       docker: 
         - image: python:3.7-alpine3.11
-          steps:
-            - checkout
-            - run:
-                name: install dependencies
-                command: |
-                    # Install hadolint
+      steps:
+        - checkout
+        - run:
+            name: install dependencies
+            command: |
+                # Install hadolint
+                pwd
+                wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
+                chmod +x hadolint
+        - run:
+            name: run lint
+            command: |
                     pwd
-                    wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
-                    chmod +x hadolint
-            - run:
-                name: run lint
-                command: |
-                        pwd
-                        cd Capstone
-                        make lint    
+                    cd Capstone
+                    make lint    
 workflows:
   default:
     jobs:
