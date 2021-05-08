@@ -52,8 +52,10 @@ jobs:
                 
                 # Run our static website
                 #docker run -it --rm -d -p 8080:80 --name web capstone-project-demowebsite
-    
                 #dockerpath=shikhas/capstone-project-demowebsite
+                
+                #Login to docker hub
+                docker login --username $DOCKERHUB_USER
 
                 docker tag capstone-project-demowebsite shikhas/capstone-project-demowebsite
                 docker push shikhas/capstone-project-demowebsite
