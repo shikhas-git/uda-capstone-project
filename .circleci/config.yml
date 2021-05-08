@@ -59,8 +59,22 @@ jobs:
 
                 docker tag capstone-project-demowebsite shikhas/capstone-project-demowebsite
                 docker push shikhas/capstone-project-demowebsite
-    
-    
+                
+    deploy-to-aws:
+      docker:
+        - image: amazon/aws-cli
+      steps:
+        - checkout
+        - run:
+            name: Installing kubectl
+            command: |
+                curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.16/2020-11-02/bin/linux/amd64/kubectl
+                chmod +x ./kubectl
+                
+                mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+                kubectl version --short --client
+                
+   
 workflows:
   default:
     jobs:
@@ -69,3 +83,5 @@ workflows:
           requires: [lint-html]
       - build-push-docker-image:
           requires: [lint-docker]
+      - deploy-to-aws:
+          requires: [build-push-docker-image]
