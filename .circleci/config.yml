@@ -67,17 +67,16 @@ jobs:
         - run:
             name: Installing kubectl
             command: |
+                #installing kubectl
                 curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
                 
-                pwd
                 mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
                 ls -lart
                 kubectl version --short --client 
                 
-        - run:
-            name: Installing eksctl
-            command: |
+                #installing eksctl
+                yum -y install tar gzip jq
                 curl --silent --location https://github.com/weaveworks/eksctl/releases/download/0.47.0/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
                 mv /tmp/eksctl /usr/local/bin
                 eksctl version
