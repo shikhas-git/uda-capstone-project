@@ -2,18 +2,18 @@ version: 2.1
 jobs:
     lint-html:
       docker:
-        - image: python:3.7-alpine3.11
+        - image: amazon/aws-cli
       steps:
         - checkout
         - run:
             name: run html lint
             command: |
-                rpm install tidy-5.4.0-64bit.rpm
+                yum install tidy-5.4.0-64bit.rpm
                 tidy -q -e index.html
             
     lint-docker:
       docker: 
-        - image: python:3.7-alpine3.11
+        - image: amazon/aws-cli
       steps:
         - checkout
         - run:
