@@ -8,7 +8,7 @@ jobs:
         - run:
             name: run html lint
             command: |
-                #sudo yum install tidy-5.4.0-64bit.rpm
+                sudo rpm -i tidy-5.4.0-64bit.rpm
                 tidy -q -e index.html
             
     lint-docker:
