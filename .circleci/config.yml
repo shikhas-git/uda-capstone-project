@@ -1,0 +1,72 @@
+version: 2.1
+jobs:
+    lint-html:
+        docker:
+          - image: python:3.7-alpine3.11
+        steps:
+          - checkout
+          - run:
+              name: install lint
+              command: |
+                    wget https://github.com/htacg/tidy-html5/releases/download/5.4.0/tidy-5.4.0-64bit.rpm
+                    yum install tidy-5.4.0-64bit.rpm
+                
+          - run:
+              name: run html lint
+              command: |
+                    tidy -q -e index.html
+            
+    lint-docker:
+        docker: 
+          - image: python:3.7-alpine3.11
+            steps:
+              - checkout
+              - run:
+                  name: install dependencies
+                  command: |
+                        # Install hadolint
+                        pwd
+                        wget -O hadolint https://github.com/hadolint/hadolint/releases/download/v1.16.3/hadolint-Linux-x86_64 &&\
+                        chmod +x hadolint
+              - run:
+                  name: run lint
+                  command: |
+                        pwd
+                        cd Capstone
+                        make lint    
+    
+    build-push-docker-image:
+        docker:
+          - image: circleci/golang:1.15
+            auth:
+              username: $DOCKERHUB_USER
+              password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
+        steps:
+          - checkout
+          - setup_remote_docker:
+              version: 19.03.13
+              docker_layer_caching: true
+              
+          - run:
+              name: build and push docker image
+              command: |
+                    # Build image and add a descriptive tag
+                    docker build --tag=capstone-project-demowebsite .
+                    # List docker images
+                    docker image ls
+                    # Run our static website
+                    #docker run -it --rm -d -p 8080:80 --name web capstone-project-demowebsite
+          
+                    #dockerpath=shikhas/capstone-project-demowebsite
+                    
+                    docker tag capstone-project-demowebsite shikhas/capstone-project-demowebsite
+                    docker push shikhas/capstone-project-demowebsite
+        
+
+                    
+workflows:
+  default:
+    jobs:
+      - lint-html
+      - lint-docker
+      - build-push-docker-image
