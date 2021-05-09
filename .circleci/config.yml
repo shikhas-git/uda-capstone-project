@@ -86,7 +86,7 @@ jobs:
                 eksctl version
                 
                 #creating cluster
-                eksctl create cluster --name capstone-demoweb-cluster1 --region us-east-2 --nodes=2 --instance-type=t2.small --ssh-access --ssh-public-key udapeople --managed
+                eksctl create cluster --name capstone-demoweb-cluster1 --region us-east-2  --ssh-access --ssh-public-key udapeople --managed
                 
                 #rollout deployment
                 #kubectl set image deployments/capstone-demoweb-cluster1 capstone-demoweb-cluster1=shikhas/capstone-project-demowebsite:latest
