@@ -1,7 +1,7 @@
 
 ## Project Overview - Capstone project for AWS Cloud DevOps Nanodegree program
 
-As part of AWS Cloud DevOps Nanodegree program - Capstone project, I deployed static website using CI/CD pipeline, created docker container and Kubernetes cluster in the pipeline and performed rolling updates using kubernetes built-in rolling update feature.
+As part of AWS Cloud DevOps Nanodegree program - Capstone project, I deployed static website (nginx webserver) using CI/CD pipeline, created docker container and Kubernetes cluster in the pipeline and performed rolling updates using kubernetes built-in rolling update feature.
 
 ## Summary of CI/CD pipeline
 CI/CD pipeline was implemented in CircleCI using circleci/config.yml. (Please look at detailed steps in .circleci/config.yml file)
