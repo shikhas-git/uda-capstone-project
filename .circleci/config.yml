@@ -86,7 +86,7 @@ jobs:
                 eksctl version
                 
                 #creating cluster
-                eksctl create cluster --name capstone-demowebsite-cluster --region us-east-2 --with-oidc --ssh-access --ssh-public-key udapeople --managed
+                eksctl create cluster --name capstone-demoweb-cluster --region us-east-2 --with-oidc --ssh-access --ssh-public-key udapeople --managed
                 
                 #deploy docker image to the cluster
                 kubectl apply -f deployment.yml
@@ -107,7 +107,7 @@ jobs:
                 kubectl get pods --all-namespaces -o wide
  
                 #delete cluster
-                #eksctl delete cluster --name capstone-demowebsite-cluster --region us-east-2
+                #eksctl delete cluster --name capstone-demoweb-cluster --region us-east-2
                 
                 
    
