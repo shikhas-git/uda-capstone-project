@@ -67,7 +67,7 @@ jobs:
         - add_ssh_keys:
             fingerprints: ["c4:8d:74:26:8f:f8:15:aa:eb:4b:8c:66:2f:fc:ee:d4"]
         - run:
-            name: Installing kubectl
+            name: creating cluster using EKS and deploying docker image
             command: |
                 #install dependencies
                 yum -y install tar gzip
@@ -86,7 +86,10 @@ jobs:
                 eksctl version
                 
                 #creating cluster
-                eksctl create cluster --name capstone-demoweb-cluster --region us-east-2 --with-oidc --ssh-access --ssh-public-key udapeople --managed
+                eksctl create cluster --name capstone-demoweb-cluster1 --region us-east-2 --nodes=2 --instance-type=t2.small --ssh-access --ssh-public-key udapeople --managed
+                
+                #rollout deployment
+                #kubectl set image deployments/capstone-demoweb-cluster1 capstone-demoweb-cluster1=shikhas/capstone-project-demowebsite:latest
                 
                 #deploy docker image to the cluster
                 kubectl apply -f deployment.yml
@@ -95,7 +98,7 @@ jobs:
                 echo "Getting cluster nodes..."
                 kubectl get nodes -o wide
                 
-                #view workloads on cluster
+                #Get pods on cluster
                 echo "Getting pods..."
                 kubectl get pods --all-namespaces -o wide
                 
@@ -103,8 +106,12 @@ jobs:
                 echo "Getting services..."
                 kubectl get services --sort-by=.metadata.name
                 
-                echo "Getting pods..."
+                echo "Getting pods again..."
                 kubectl get pods --all-namespaces -o wide
+                
+                echo "Checking loadbalancer..."
+                #kubectl describe service my-elb-service
+                
  
                 #delete cluster
                 #eksctl delete cluster --name capstone-demoweb-cluster --region us-east-2
