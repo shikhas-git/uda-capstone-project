@@ -44,14 +44,10 @@ jobs:
             command: |
                 
                 # Build image and add a descriptive tag
-                docker build --tag=capstone-project-demowebsite .
+                docker build -t capstone-project-demowebsite .
                 
                 # List docker images
                 docker image ls
-                
-                # Run our static website
-                #docker run -it --rm -d -p 8080:80 --name web capstone-project-demowebsite
-                #dockerpath=shikhas/capstone-project-demowebsite
                 
                 #Login to docker hub
                 docker login --username $DOCKERHUB_USER --password $DOCKERHUB_PWD
@@ -86,10 +82,7 @@ jobs:
                 eksctl version
                 
                 #creating cluster
-                eksctl create cluster --name capstone-demoweb-cluster1 --region us-east-2  --ssh-access --ssh-public-key udapeople --managed
-                
-                #rollout deployment
-                #kubectl set image deployments/capstone-demoweb-cluster1 capstone-demoweb-cluster1=shikhas/capstone-project-demowebsite:latest
+                eksctl create cluster --name capstone-demoweb-cluster2 --region us-east-2  --ssh-access --ssh-public-key udapeople --managed
                 
                 #deploy docker image to the cluster
                 kubectl apply -f deployment.yml
@@ -109,9 +102,20 @@ jobs:
                 echo "Getting pods again..."
                 kubectl get pods --all-namespaces -o wide
                 
-                echo "Checking loadbalancer..."
-                #kubectl describe service my-elb-service
+                echo "Get Deployments ..."
+                kubectl get deployments
                 
+                echo "Rolling deployment------"
+                kubectl set image deployments/capstone-project-demowebsite capstone-project-demowebsite=shikhas/capstone-project-demowebsite:v2
+                
+                echo "Rolling deployment status-----"
+                kubectl rollout status deployment/capstone-project-demowebsite
+                
+                echo "Get Deployments after rolling updates-----"
+                kubectl get deployments
+                
+                echo "Check Rolling deployment status again------"
+                kubectl rollout status deployment/capstone-project-demowebsite
  
                 #delete cluster
                 #eksctl delete cluster --name capstone-demoweb-cluster --region us-east-2

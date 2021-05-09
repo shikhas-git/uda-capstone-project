@@ -21,7 +21,7 @@ spec:
         app: capstone-project-demowebsite
     spec:
       containers:
-        - image: docker.io/shikhas/capstone-project-demowebsite:latest
+        - image: docker.io/shikhas/capstone-project-demowebsite
           imagePullPolicy: Always
           name: capstone-project-demowebsite
           ports:
