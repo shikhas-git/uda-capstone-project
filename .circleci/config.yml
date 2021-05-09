@@ -64,22 +64,38 @@ jobs:
         - image: amazon/aws-cli
       steps:
         - checkout
+        - add_ssh_keys:
+            fingerprints: ["c4:8d:74:26:8f:f8:15:aa:eb:4b:8c:66:2f:fc:ee:d4"]
         - run:
             name: Installing kubectl
             command: |
+                #install dependencies
+                yum -y install tar gzip
+                
                 #installing kubectl
                 curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
-                
                 mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
-                ls -lart
+                echo "kubectl version"
                 kubectl version --short --client 
                 
                 #installing eksctl
-                yum -y install tar gzip jq
                 curl --silent --location https://github.com/weaveworks/eksctl/releases/download/0.47.0/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
                 mv /tmp/eksctl /usr/local/bin
+                echo "eksctl version"
                 eksctl version
+                
+                #creating cluster
+                eksctl create cluster --name capstone-demowebsite-cluster --region us-east-2 --with-oidc --ssh-access --ssh-public-key udapeople --managed
+                #view your cluster nodes
+                kubectl get nodes -o wide
+                #view workloads on cluster
+                kubectl get pods --all-namespaces -o wide
+                
+                #delete cluster
+                eksctl delete cluster --name capstone-demowebsite-cluster --region us-east-2
+                
+                
    
 workflows:
   default:
