@@ -76,24 +76,32 @@ jobs:
                 curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.19.6/2021-01-05/bin/linux/amd64/kubectl
                 chmod +x ./kubectl
                 mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
-                echo "kubectl version"
+                echo "kubectl version..."
                 kubectl version --short --client 
                 
                 #installing eksctl
                 curl --silent --location https://github.com/weaveworks/eksctl/releases/download/0.47.0/eksctl_Linux_amd64.tar.gz | tar xz -C /tmp
                 mv /tmp/eksctl /usr/local/bin
-                echo "eksctl version"
+                echo "eksctl version..."
                 eksctl version
                 
                 #creating cluster
                 eksctl create cluster --name capstone-demowebsite-cluster --region us-east-2 --with-oidc --ssh-access --ssh-public-key udapeople --managed
+                
+                #deploy docker image to the cluster
+                kubectl apply -f deployment.yml
+                
                 #view your cluster nodes
                 kubectl get nodes -o wide
+                
                 #view workloads on cluster
                 kubectl get pods --all-namespaces -o wide
                 
+                #list services
+                kubectl get services --sort-by=.metadata.name
+                
                 #delete cluster
-                eksctl delete cluster --name capstone-demowebsite-cluster --region us-east-2
+                #eksctl delete cluster --name capstone-demowebsite-cluster --region us-east-2
                 
                 
    
