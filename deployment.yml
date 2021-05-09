@@ -21,7 +21,7 @@ spec:
         app: capstone-project-demowebsite
     spec:
       containers:
-        - image: shikhas/capstone-project-demowebsite
+        - image: docker.io/shikhas/capstone-project-demowebsite:latest
           imagePullPolicy: Always
           name: capstone-project-demowebsite
           ports:
@@ -40,6 +40,5 @@ spec:
     app: capstone-project-demowebsite
   ports:
     - port: 80
-      targetPort: 80
-      nodePort: 30000
+      targetPort: 8090
       protocol: TCP

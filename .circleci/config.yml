@@ -92,14 +92,20 @@ jobs:
                 kubectl apply -f deployment.yml
                 
                 #view your cluster nodes
+                echo "Getting cluster nodes..."
                 kubectl get nodes -o wide
                 
                 #view workloads on cluster
+                echo "Getting pods..."
                 kubectl get pods --all-namespaces -o wide
                 
                 #list services
+                echo "Getting services..."
                 kubectl get services --sort-by=.metadata.name
                 
+                echo "Getting pods..."
+                kubectl get pods --all-namespaces -o wide
+ 
                 #delete cluster
                 #eksctl delete cluster --name capstone-demowebsite-cluster --region us-east-2
                 
